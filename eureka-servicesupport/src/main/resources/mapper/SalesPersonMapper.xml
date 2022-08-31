@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eurekaservicesupport.dao.SalesPersonMapper">
+  <resultMap id="BaseResultMap" type="com.example.eurekaservicesupport.entity.SalesPerson">
+    <id column="sales_person_id" jdbcType="INTEGER" property="salesPersonId" />
+    <result column="job_number" jdbcType="VARCHAR" property="jobNumber" />
+    <result column="sales_person_name" jdbcType="VARCHAR" property="salesPersonName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    sales_person_id, job_number, sales_person_name, password, register_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sales_person
+    where sales_person_id = #{salesPersonId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sales_person
+    where sales_person_id = #{salesPersonId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.eurekaservicesupport.entity.SalesPerson">
+    insert into sales_person (sales_person_id, job_number, sales_person_name, 
+      password, register_time)
+    values (#{salesPersonId,jdbcType=INTEGER}, #{jobNumber,jdbcType=VARCHAR}, #{salesPersonName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.eurekaservicesupport.entity.SalesPerson">
+    insert into sales_person
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="salesPersonId != null">
+        sales_person_id,
+      </if>
+      <if test="jobNumber != null">
+        job_number,
+      </if>
+      <if test="salesPersonName != null">
+        sales_person_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="salesPersonId != null">
+        #{salesPersonId,jdbcType=INTEGER},
+      </if>
+      <if test="jobNumber != null">
+        #{jobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="salesPersonName != null">
+        #{salesPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.eurekaservicesupport.entity.SalesPerson">
+    update sales_person
+    <set>
+      <if test="jobNumber != null">
+        job_number = #{jobNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="salesPersonName != null">
+        sales_person_name = #{salesPersonName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sales_person_id = #{salesPersonId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.SalesPerson">
+    update sales_person
+    set job_number = #{jobNumber,jdbcType=VARCHAR},
+      sales_person_name = #{salesPersonName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP}
+    where sales_person_id = #{salesPersonId,jdbcType=INTEGER}
+  </update>
+</mapper>

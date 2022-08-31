@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eurekaservicesupport.dao.StockHoldMapper">
+  <resultMap id="BaseResultMap" type="com.example.eurekaservicesupport.entity.StockHold">
+    <id column="stock_hold_id" jdbcType="INTEGER" property="stockHoldId" />
+    <result column="client_id" jdbcType="INTEGER" property="clientId" />
+    <result column="stock_id" jdbcType="INTEGER" property="stockId" />
+    <result column="hold_number" jdbcType="INTEGER" property="holdNumber" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stock_hold_id, client_id, stock_id, hold_number, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.StockHoldKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stock_hold
+    where client_id = #{clientId,jdbcType=INTEGER}
+    and stock_id = #{stockId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from stock_hold
+    where stock_hold_id = #{stockHoldId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    insert into stock_hold (stock_hold_id, client_id, stock_id, 
+      hold_number, update_time)
+    values (#{stockHoldId,jdbcType=INTEGER}, #{clientId,jdbcType=INTEGER}, #{stockId,jdbcType=INTEGER}, 
+      #{holdNumber,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    insert into stock_hold
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockHoldId != null">
+        stock_hold_id,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="stockId != null">
+        stock_id,
+      </if>
+      <if test="holdNumber != null">
+        hold_number,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockHoldId != null">
+        #{stockHoldId,jdbcType=INTEGER},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="stockId != null">
+        #{stockId,jdbcType=INTEGER},
+      </if>
+      <if test="holdNumber != null">
+        #{holdNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    update stock_hold
+    <set>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="stockId != null">
+        stock_id = #{stockId,jdbcType=INTEGER},
+      </if>
+      <if test="holdNumber != null">
+        hold_number = #{holdNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where stock_hold_id = #{stockHoldId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    update stock_hold
+    set client_id = #{clientId,jdbcType=INTEGER},
+      stock_id = #{stockId,jdbcType=INTEGER},
+      hold_number = #{holdNumber,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where stock_hold_id = #{stockHoldId,jdbcType=INTEGER}
+  </update>
+  <update id="buyStock" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    INSERT INTO stock_hold (client_id, stock_id, hold_number, update_time)
+    VALUES
+    (#{clientId,jdbcType=INTEGER}, #{stockId,jdbcType=INTEGER}, #{holdNumber,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+    ON DUPLICATE KEY UPDATE hold_number = hold_number + #{holdNumber,jdbcType=INTEGER}, update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="sellStock" parameterType="com.example.eurekaservicesupport.entity.StockHold">
+    INSERT INTO stock_hold (client_id, stock_id, hold_number, update_time)
+    VALUES
+    (#{clientId,jdbcType=INTEGER}, #{stockId,jdbcType=INTEGER}, #{holdNumber,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP})
+    ON DUPLICATE KEY UPDATE hold_number = hold_number - #{holdNumber,jdbcType=INTEGER}, update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </update>
+  <select id="selectByClientId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stock_hold
+    where client_id = #{clientId}
+  </select>
+</mapper>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eurekaservicesupport.dao.TradeMapper">
+  <resultMap id="BaseResultMap" type="com.example.eurekaservicesupport.entity.Trade">
+    <id column="trade_id" jdbcType="VARCHAR" property="tradeId" />
+    <result column="client_id" jdbcType="VARCHAR" property="clientId" />
+    <result column="stock_id" jdbcType="VARCHAR" property="stockId" />
+    <result column="client_side" jdbcType="VARCHAR" property="clientSide" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="sales_person_id" jdbcType="VARCHAR" property="salesPersonId" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="trade_date" jdbcType="TIMESTAMP" property="tradeDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    trade_id, client_id, stock_id, client_side, size, sales_person_id, trade_type, 
+    trade_date
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade
+    where trade_id = #{tradeId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectALL" parameterType="com.example.eurekaservicesupport.query.TradeQuery" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trade
+    where trade_id = #{tradeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.eurekaservicesupport.entity.Trade">
+    insert into trade (trade_id, client_id, stock_id, 
+      client_side, size, 
+      sales_person_id, trade_type, trade_date
+      )
+    values (#{tradeId,jdbcType=VARCHAR}, #{clientId,jdbcType=VARCHAR}, #{stockId,jdbcType=VARCHAR}, 
+      #{clientSide,jdbcType=VARCHAR}, #{size,jdbcType=INTEGER}, 
+      #{salesPersonId,jdbcType=VARCHAR}, #{tradeType,jdbcType=VARCHAR}, #{tradeDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.eurekaservicesupport.entity.Trade">
+    insert into trade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tradeId != null">
+        trade_id,
+      </if>
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="stockId != null">
+        stock_id,
+      </if>
+      <if test="clientSide != null">
+        client_side,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="salesPersonId != null">
+        sales_person_id,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="tradeDate != null">
+        trade_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tradeId != null">
+        #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientId != null">
+        #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockId != null">
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSide != null">
+        #{clientSide,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="salesPersonId != null">
+        #{salesPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.eurekaservicesupport.entity.Trade">
+    update trade
+    <set>
+      <if test="clientId != null">
+        client_id = #{clientId,jdbcType=VARCHAR},
+      </if>
+      <if test="stockId != null">
+        stock_id = #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="clientSide != null">
+        client_side = #{clientSide,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="salesPersonId != null">
+        sales_person_id = #{salesPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeDate != null">
+        trade_date = #{tradeDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where trade_id = #{tradeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.Trade">
+    update trade
+    set client_id = #{clientId,jdbcType=VARCHAR},
+      stock_id = #{stockId,jdbcType=VARCHAR},
+      client_side = #{clientSide,jdbcType=VARCHAR},
+      size = #{size,jdbcType=INTEGER},
+      sales_person_id = #{salesPersonId,jdbcType=VARCHAR},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      trade_date = #{tradeDate,jdbcType=TIMESTAMP}
+    where trade_id = #{tradeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eurekaservicesupport.dao.ClientMapper">
+  <resultMap id="BaseResultMap" type="com.example.eurekaservicesupport.entity.Client">
+    <id column="client_id" jdbcType="INTEGER" property="clientId" />
+    <result column="client_name" jdbcType="VARCHAR" property="clientName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    client_id, client_name, password, register_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from client
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from client
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.example.eurekaservicesupport.entity.Client">
+    insert into client (client_id, client_name, password, 
+      register_time)
+    values (#{clientId,jdbcType=INTEGER}, #{clientName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{registerTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.eurekaservicesupport.entity.Client">
+    insert into client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        client_id,
+      </if>
+      <if test="clientName != null">
+        client_name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientId != null">
+        #{clientId,jdbcType=INTEGER},
+      </if>
+      <if test="clientName != null">
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.eurekaservicesupport.entity.Client">
+    update client
+    <set>
+      <if test="clientName != null">
+        client_name = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.Client">
+    update client
+    set client_name = #{clientName,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP}
+    where client_id = #{clientId,jdbcType=INTEGER}
+  </update>
+  <select id="selectClientByRequest" parameterType="com.example.eurekaservicesupport.entity.Client" resultMap="BaseResultMap">
+    select 
+    client_id, client_name, register_time
+    from client
+    where client_name = #{clientName,jdbcType=VARCHAR}
+    and password = #{password,jdbcType=VARCHAR}
+  </select>
+  <update id="changePassword">
+    update client
+    set password = #{newPassword,jdbcType=VARCHAR},
+    where client_id = #{clientId,jdbcType=INTEGER}
+    and password = #{originalPassword,jdbcType=VARCHAR}
+  </update>
+</mapper>

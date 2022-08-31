@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.eurekaservicesupport.dao.TradeStatisticMapper">
+  <resultMap id="BaseResultMap" type="com.example.eurekaservicesupport.entity.TradeStatistic">
+    <id column="trade_statistic_id" jdbcType="VARCHAR" property="tradeStatisticId" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="total_buy" jdbcType="INTEGER" property="totalBuy" />
+    <result column="total_sell" jdbcType="INTEGER" property="totalSell" />
+    <result column="statistic_date" jdbcType="TIMESTAMP" property="statisticDate" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    trade_statistic_id, description, total_buy, total_sell, statistic_date, update_time
+  </sql>
+  <sql id="Base_Column1_List">
+     total_buy, total_sell, statistic_date
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade_statistic
+    where trade_statistic_id = #{tradeStatisticId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByDate" parameterType="java.lang.String" resultType="hashmap">
+    select
+    <include refid="Base_Column1_List" />
+    from trade_statistic
+    where statistic_date between #{startTime} and #{endTime}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trade_statistic
+    where trade_statistic_id = #{tradeStatisticId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.example.eurekaservicesupport.entity.TradeStatistic">
+    insert into trade_statistic (trade_statistic_id, description, total_buy, 
+      total_sell, statistic_date, update_time
+      )
+    values (#{tradeStatisticId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{totalBuy,jdbcType=INTEGER}, 
+      #{totalSell,jdbcType=INTEGER}, #{statisticDate,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.eurekaservicesupport.entity.TradeStatistic">
+    insert into trade_statistic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tradeStatisticId != null">
+        trade_statistic_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="totalBuy != null">
+        total_buy,
+      </if>
+      <if test="totalSell != null">
+        total_sell,
+      </if>
+      <if test="statisticDate != null">
+        statistic_date,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tradeStatisticId != null">
+        #{tradeStatisticId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalBuy != null">
+        #{totalBuy,jdbcType=INTEGER},
+      </if>
+      <if test="totalSell != null">
+        #{totalSell,jdbcType=INTEGER},
+      </if>
+      <if test="statisticDate != null">
+        #{statisticDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.eurekaservicesupport.entity.TradeStatistic">
+    update trade_statistic
+    <set>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="totalBuy != null">
+        total_buy = #{totalBuy,jdbcType=INTEGER},
+      </if>
+      <if test="totalSell != null">
+        total_sell = #{totalSell,jdbcType=INTEGER},
+      </if>
+      <if test="statisticDate != null">
+        statistic_date = #{statisticDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where trade_statistic_id = #{tradeStatisticId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.eurekaservicesupport.entity.TradeStatistic">
+    update trade_statistic
+    set description = #{description,jdbcType=VARCHAR},
+      total_buy = #{totalBuy,jdbcType=INTEGER},
+      total_sell = #{totalSell,jdbcType=INTEGER},
+      statistic_date = #{statisticDate,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where trade_statistic_id = #{tradeStatisticId,jdbcType=VARCHAR}
+  </update>
+</mapper>
